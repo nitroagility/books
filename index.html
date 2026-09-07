@@ -46,6 +46,11 @@
     .reader-head h2 { font:600 1rem/1.4 system-ui,sans-serif; margin:0; }
     .reader-links { padding:0 22px 14px; font-size:.9rem; }
     object { display:block; width:100%; height:70vh; background:white; }
+    .pdf-controls { display:flex; align-items:center; justify-content:center; gap:12px; padding:12px; flex-wrap:wrap; }
+    .pdf-pages { height:65vh; overflow:auto; background:#d9dfdc; padding:16px; text-align:center; }
+    .pdf-pages canvas { max-width:100%; height:auto; background:white; }
+    .pdf-status { padding:0 22px; }
+    button:disabled { opacity:.5; cursor:default; }
     .fallback { padding:30px; }
     [hidden] { display:none !important; }
     @media(max-width:650px) { main,header,footer { padding:20px; } .grid { grid-template-columns:1fr; } .hero { padding-top:28px; } .cover { height:290px; } .details { padding:22px; } }
@@ -61,7 +66,7 @@
     </section>
     <div class="toolbar">
       <span id="count" aria-live="polite">1 book · 2 editions</span>
-      <div class="filters" role="group" aria-label="Filtra per lingua">
+      <div class="filters" role="group" aria-label="Filter by book language" data-i18n-aria-label="filterLabel">
         <button type="button" data-filter="all" aria-pressed="true" data-i18n="all">All editions</button>
         <button type="button" data-filter="en" aria-pressed="false">🇬🇧 English</button>
         <button type="button" data-filter="it" aria-pressed="false">🇮🇹 Italiano</button>
@@ -77,10 +82,10 @@
           <p class="author"><span data-i18n="authorLabel">Author</span>: Nicola Gallo<br><span data-i18n="publisherLabel">Publisher</span>: Nitro Agility S.r.l.</p>
           <p class="description" data-i18n="enDescription">From intent to outcome: a model for agentic execution built on reusable tools, verification, authority, and governance.</p>
           <div class="actions">
-            <a class="button primary" href="outcome-oriented-programming/outcome_oriented_programming.pdf" target="_blank" rel="noopener" data-i18n="open">Open PDF</a>
+            <a class="button primary" data-open="en" href="outcome-oriented-programming/outcome_oriented_programming.pdf" target="_blank" rel="noopener" data-i18n="open">Open PDF</a>
             <button type="button" data-share="en" hidden data-i18n="share">Copy PDF link</button>
             <button type="button" data-preview="en" data-i18n="preview">Preview</button>
-            <a class="button" href="outcome-oriented-programming/outcome_oriented_programming.pdf" download data-i18n="download">Download PDF</a>
+            <a class="button" data-download="en" href="outcome-oriented-programming/outcome_oriented_programming.pdf" download data-i18n="download">Download PDF</a>
           </div>
         </div>
       </article>
@@ -93,10 +98,10 @@
           <p class="author"><span data-i18n="authorLabel">Author</span>: Nicola Gallo<br><span data-i18n="publisherLabel">Publisher</span>: Nitro Agility S.r.l.</p>
           <p class="description" data-i18n="itDescription">From intent to outcome: a model for agentic execution built on reusable tools, verification, authority, and governance.</p>
           <div class="actions" id="italian-actions">
-            <a class="button primary" href="outcome-oriented-programming-italian/outcome_oriented_programming_italiano.pdf" target="_blank" rel="noopener" data-i18n="open">Open PDF</a>
+            <a class="button primary" data-open="it" href="outcome-oriented-programming-italian/outcome_oriented_programming_italiano.pdf" target="_blank" rel="noopener" data-i18n="open">Open PDF</a>
             <button type="button" data-share="it" hidden data-i18n="share">Copy PDF link</button>
             <button type="button" data-preview="it" data-i18n="preview">Preview</button>
-            <a class="button" href="outcome-oriented-programming-italian/outcome_oriented_programming_italiano.pdf" download data-i18n="download">Download PDF</a>
+            <a class="button" data-download="it" href="outcome-oriented-programming-italian/outcome_oriented_programming_italiano.pdf" download data-i18n="download">Download PDF</a>
           </div>
         </div>
       </article>
@@ -109,12 +114,23 @@
   <dialog aria-labelledby="reader-title">
     <div class="reader-head"><h2 id="reader-title" data-i18n="preview">Preview</h2><button type="button" id="close" data-i18n="close">Close</button></div>
     <div class="reader-links"><span data-i18n="readerHint">If the preview does not appear,</span> <a id="open-pdf" target="_blank" rel="noopener" data-i18n="openTab">open the PDF in a new tab</a>.</div>
+    <div id="pdf-controls" class="pdf-controls" hidden>
+      <button type="button" id="previous-page" data-i18n="previousPage">Previous page</button>
+      <span id="page-number" aria-live="polite"></span>
+      <button type="button" id="next-page" data-i18n="nextPage">Next page</button>
+      <a id="reader-download" class="button" download data-i18n="download">Download PDF</a>
+    </div>
+    <p id="pdf-status" class="pdf-status" role="status"></p>
     <div id="document"></div>
   </dialog>
   <script>
     const translations = {
   "en": {
     "siteLanguage": "Site language",
+    "previousPage": "Previous page",
+    "nextPage": "Next page",
+    "loading": "Loading PDF…",
+    "loadError": "The PDF could not be loaded. Try again or download the file.",
     "eyebrow": "Ideas to read, knowledge to share",
     "headingByline": "by Nitro Agility",
     "intro": "Explore our collection of openly licensed books. Discover the authors, choose an edition, and read, download, or share a book.",
@@ -148,6 +164,10 @@
   },
   "it": {
     "siteLanguage": "Lingua del sito",
+    "previousPage": "Pagina precedente",
+    "nextPage": "Pagina successiva",
+    "loading": "Caricamento PDF…",
+    "loadError": "Impossibile caricare il PDF. Riprova o scarica il file.",
     "eyebrow": "Idee da leggere, conoscenza da condividere",
     "headingByline": "di Nitro Agility",
     "intro": "Esplora la nostra raccolta di libri con licenza aperta. Scopri gli autori, scegli un’edizione e leggi, scarica o condividi un libro.",
@@ -205,6 +225,44 @@
       it: 'outcome-oriented-programming-italian/outcome_oriented_programming_italiano.pdf',
       en: 'outcome-oriented-programming/outcome_oriented_programming.pdf'
     };
+    // HTML Preview injects a raw GitHub <base>, but location still belongs to
+    // htmlpreview.github.io. Resolve files from the source document, not that host.
+    function sourceDocument(pageURL, baseURI) {
+      const page = new URL(pageURL);
+      if (page.hostname !== 'htmlpreview.github.io') return new URL(baseURI);
+      let source = page.search.slice(1);
+      if (!/^https?:\/\//i.test(source)) source = decodeURIComponent(source);
+      const url = new URL(source);
+      if (url.protocol !== 'https:' || !['github.com', 'raw.githubusercontent.com'].includes(url.hostname)) {
+        throw new Error('Unsupported HTML Preview source');
+      }
+      if (url.hostname === 'github.com') {
+        if (!/^\/[^/]+\/[^/]+\/blob\//.test(url.pathname)) throw new Error('Expected a GitHub file URL');
+        url.hostname = 'raw.githubusercontent.com';
+        url.pathname = url.pathname.replace('/blob/', '/');
+      }
+      url.search = '';
+      url.hash = '';
+      return url;
+    }
+    const isHTMLPreview = location.hostname === 'htmlpreview.github.io';
+    const sourceURL = sourceDocument(location.href, document.baseURI);
+    const pdfURL = language => new URL(pdfs[language], sourceURL).href;
+    function openURL(language) {
+      if (!isHTMLPreview) return pdfURL(language);
+      const url = new URL(location.href);
+      url.hash = new URLSearchParams({ book: language }).toString();
+      return url.href;
+    }
+    document.querySelectorAll('[data-open]').forEach(link => {
+      link.href = openURL(link.dataset.open);
+    });
+    document.querySelectorAll('[data-download]').forEach(link => {
+      link.href = pdfURL(link.dataset.download);
+    });
+    document.querySelectorAll('.cover img').forEach(img => {
+      img.src = new URL(img.getAttribute('src'), sourceURL).href;
+    });
     const reader = document.querySelector('dialog');
     document.querySelectorAll('[data-share]').forEach(button => {
       button.hidden = false;
@@ -216,7 +274,7 @@
           status.textContent = t('local');
           return;
         }
-        const url = new URL(pdfs[button.dataset.share], location.href).href;
+        const url = openURL(button.dataset.share);
         try {
           await navigator.clipboard.writeText(url);
           status.textContent = t('copied');
@@ -238,25 +296,107 @@
         document.querySelector('#count').textContent = t(button.dataset.filter === 'all' ? 'countAll' : 'countOne');
       });
     });
-    document.querySelectorAll('[data-preview]').forEach(button => {
-      button.addEventListener('click', () => {
-        const language = button.dataset.preview;
-        document.querySelector('#reader-title').textContent = 'Outcome-Oriented Programming · ' + (language === 'it' ? 'Italiano' : 'English');
-        document.querySelector('#open-pdf').href = pdfs[language];
+    let readerGeneration = 0;
+    let loadingTask = null;
+    let activePDF = null;
+    let pageNumber = 1;
+    let rendering = false;
+    const previous = document.querySelector('#previous-page');
+    const next = document.querySelector('#next-page');
+    function updatePaging() {
+      previous.disabled = rendering || !activePDF || pageNumber <= 1;
+      next.disabled = rendering || !activePDF || pageNumber >= activePDF.numPages;
+      document.querySelector('#page-number').textContent = activePDF ? pageNumber + ' / ' + activePDF.numPages : '';
+    }
+    function resetReader() {
+      readerGeneration++;
+      if (loadingTask) loadingTask.destroy().catch(() => {});
+      loadingTask = null;
+      activePDF = null;
+      rendering = false;
+      document.querySelector('#document').replaceChildren();
+      document.querySelector('#pdf-status').textContent = '';
+      document.querySelector('#pdf-controls').hidden = true;
+    }
+    async function renderPage(generation) {
+      rendering = true;
+      updatePaging();
+      try {
+        const page = await activePDF.getPage(pageNumber);
+        if (generation !== readerGeneration) return;
+        const canvas = document.createElement('canvas');
+        const viewport = page.getViewport({ scale: 1.5 });
+        canvas.width = Math.ceil(viewport.width);
+        canvas.height = Math.ceil(viewport.height);
+        canvas.setAttribute('role', 'img');
+        canvas.setAttribute('aria-label', t('pdfLabel') + ' ' + pageNumber);
+        await page.render({ canvasContext: canvas.getContext('2d'), viewport }).promise;
+        if (generation !== readerGeneration) return;
+        const container = document.querySelector('#document');
+        container.replaceChildren(canvas);
+        container.scrollTop = 0;
+        document.querySelector('#pdf-status').textContent = '';
+      } catch {
+        if (generation === readerGeneration) document.querySelector('#pdf-status').textContent = t('loadError');
+      } finally {
+        if (generation === readerGeneration) { rendering = false; updatePaging(); }
+      }
+    }
+    async function showPreview(language) {
+      resetReader();
+      const generation = readerGeneration;
+      document.querySelector('#reader-title').textContent = 'Outcome-Oriented Programming · ' + (language === 'it' ? 'Italiano' : 'English');
+      document.querySelector('#open-pdf').href = openURL(language);
+      const container = document.querySelector('#document');
+      container.className = isHTMLPreview ? 'pdf-pages' : '';
+      if (!reader.open) reader.showModal();
+      if (!isHTMLPreview) {
         const pdf = document.createElement('object');
         pdf.type = 'application/pdf';
-        pdf.data = pdfs[language] + '#view=FitH';
+        pdf.data = pdfURL(language) + '#view=FitH';
         pdf.setAttribute('aria-label', t('pdfLabel') + ' ' + language);
         const fallback = document.createElement('p');
         fallback.className = 'fallback';
         fallback.textContent = t('fallback');
         pdf.append(fallback);
-        document.querySelector('#document').replaceChildren(pdf);
-        reader.showModal();
-      });
+        container.replaceChildren(pdf);
+        return;
+      }
+      document.querySelector('#pdf-controls').hidden = false;
+      document.querySelector('#reader-download').href = pdfURL(language);
+      document.querySelector('#pdf-status').textContent = t('loading');
+      updatePaging();
+      try {
+        const pdfjs = await import('https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.10.38/pdf.min.mjs');
+        if (generation !== readerGeneration) return;
+        pdfjs.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.10.38/pdf.worker.min.mjs';
+        loadingTask = pdfjs.getDocument({ url: pdfURL(language), isEvalSupported: false });
+        const pdf = await loadingTask.promise;
+        if (generation !== readerGeneration) return;
+        activePDF = pdf;
+        pageNumber = 1;
+        await renderPage(generation);
+      } catch {
+        if (generation === readerGeneration) document.querySelector('#pdf-status').textContent = t('loadError');
+      }
+    }
+    previous.addEventListener('click', () => {
+      if (!activePDF || rendering || pageNumber <= 1) return;
+      pageNumber--;
+      renderPage(readerGeneration);
+    });
+    next.addEventListener('click', () => {
+      if (!activePDF || rendering || pageNumber >= activePDF.numPages) return;
+      pageNumber++;
+      renderPage(readerGeneration);
+    });
+    document.querySelectorAll('[data-preview]').forEach(button => {
+      button.addEventListener('click', () => showPreview(button.dataset.preview));
     });
     document.querySelector('#close').addEventListener('click', () => reader.close());
-    reader.addEventListener('close', () => document.querySelector('#document').replaceChildren());
+    reader.addEventListener('close', resetReader);
+    const requestedBook = new URLSearchParams(location.hash.slice(1)).get('book');
+    if (isHTMLPreview && Object.hasOwn(pdfs, requestedBook)) showPreview(requestedBook);
   </script>
 </body>
 </html>
