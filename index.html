@@ -1,0 +1,262 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Explore Open Books by Nitro Agility: openly licensed books to read, download, and share." data-i18n-content="meta">
+  <title>Open Books · Nitro Agility</title>
+  <style>
+    :root { color-scheme: light; --paper:#f5f2eb; --ink:#192d2a; --muted:#526660; --line:#d7ded5; --accent:#245e48; }
+    * { box-sizing:border-box; }
+    body { margin:0; background:var(--paper); color:var(--ink); font:16px/1.65 system-ui,sans-serif; }
+    main, header, footer { max-width:1140px; margin:auto; padding:28px; }
+    header { gap:16px; flex-wrap:wrap; display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--line); }
+    .site-language { display:flex; align-items:center; gap:10px; font-size:.85rem; }
+    select { font:inherit; padding:8px 12px; border:1px solid var(--line); border-radius:8px; background:#fffefa; color:var(--ink); }
+    .brand { font-weight:750; letter-spacing:.02em; }
+    .eyebrow { color:var(--accent); font-size:.75rem; font-weight:750; letter-spacing:.15em; text-transform:uppercase; }
+    .hero { padding:45px 0 35px; max-width:740px; }
+    h1 { font:clamp(2.8rem,7vw,5rem)/1.06 Georgia,serif; letter-spacing:-.045em; margin:18px 0; }
+    .heading-byline { display:block; font-style:italic; white-space:nowrap; font-size:.65em; letter-spacing:-.025em; margin-top:.2em; }
+    .intro { color:var(--muted); font-size:1.15rem; max-width:600px; }
+    .toolbar { display:flex; justify-content:space-between; align-items:center; gap:18px; margin:12px 0 28px; flex-wrap:wrap; }
+    .filters { display:flex; gap:8px; }
+    button, .button { font:inherit; font-size:.9rem; cursor:pointer; border:1px solid var(--line); border-radius:8px; padding:10px 16px; background:transparent; color:var(--ink); text-decoration:none; display:inline-block; }
+    button[aria-pressed="true"], .primary { background:var(--ink); color:white; border-color:var(--ink); }
+    button:hover, .button:hover { box-shadow:0 0 0 2px var(--line); }
+    :focus-visible { outline:3px solid #ad6517; outline-offset:4px; }
+    .grid { display:grid; grid-template-columns:1fr 1fr; gap:28px; }
+    article { border:1px solid var(--line); border-radius:14px; overflow:hidden; background:#fffefa; }
+    .cover { height:320px; background:#e5e9df; display:flex; justify-content:center; padding:28px; }
+    article:nth-child(2) .cover { background:#e3e8eb; }
+    .cover img { max-width:100%; height:100%; object-fit:contain; box-shadow:8px 12px 24px #192d2a24; }
+    .details { padding:28px; }
+    .language { font-size:.75rem; font-weight:700; padding:5px 9px; background:var(--paper); border-radius:5px; }
+    h2 { font:1.8rem/1.18 Georgia,serif; margin:18px 0 8px; }
+    .subtitle { margin:0; color:var(--muted); }
+    .author { font-size:.85rem; margin-top:18px; }
+    .description { color:var(--muted); }
+    .actions { display:flex; gap:10px; flex-wrap:wrap; margin-top:24px; }
+    .notice { font-size:.85rem; color:var(--muted); }
+    footer { margin-top:36px; border-top:1px solid var(--line); font-size:.85rem; color:var(--muted); }
+    a { color:var(--accent); }
+    dialog { width:min(1100px,96vw); max-height:94vh; padding:0; border:1px solid var(--line); border-radius:12px; background:var(--paper); color:var(--ink); }
+    dialog::backdrop { background:#10241ed9; }
+    .reader-head { display:flex; align-items:center; justify-content:space-between; gap:14px; padding:16px 22px; }
+    .reader-head h2 { font:600 1rem/1.4 system-ui,sans-serif; margin:0; }
+    .reader-links { padding:0 22px 14px; font-size:.9rem; }
+    object { display:block; width:100%; height:70vh; background:white; }
+    .fallback { padding:30px; }
+    [hidden] { display:none !important; }
+    @media(max-width:650px) { main,header,footer { padding:20px; } .grid { grid-template-columns:1fr; } .hero { padding-top:28px; } .cover { height:290px; } .details { padding:22px; } }
+  </style>
+</head>
+<body>
+  <header><span class="brand">NITRO AGILITY <span aria-hidden="true">/</span> Open Books</span><label class="site-language" for="site-language"><span data-i18n="siteLanguage">Site language</span><select id="site-language"><option value="en" selected>🇬🇧 English</option><option value="it">🇮🇹 Italiano</option></select></label></header>
+  <main>
+    <section class="hero" aria-labelledby="heading">
+      <span class="eyebrow" data-i18n="eyebrow">Ideas to read, knowledge to share</span>
+      <h1 id="heading">Open Books<span class="heading-byline" data-i18n="headingByline">by Nitro Agility</span></h1>
+      <p class="intro" data-i18n="intro">Explore our collection of openly licensed books. Discover the authors, choose an edition, and read, download, or share a book.</p>
+    </section>
+    <div class="toolbar">
+      <span id="count" aria-live="polite">1 book · 2 editions</span>
+      <div class="filters" role="group" aria-label="Filtra per lingua">
+        <button type="button" data-filter="all" aria-pressed="true" data-i18n="all">All editions</button>
+        <button type="button" data-filter="en" aria-pressed="false">🇬🇧 English</button>
+        <button type="button" data-filter="it" aria-pressed="false">🇮🇹 Italiano</button>
+      </div>
+    </div>
+    <section class="grid" aria-label="Available editions" data-i18n-aria-label="editionsLabel">
+      <article data-language="en">
+        <div class="cover"><img src="outcome-oriented-programming/outcome_oriented_programming_cover.png" alt="Cover of the English edition of Outcome-Oriented Programming" data-i18n-alt="enCover"></div>
+        <div class="details">
+          <span class="language" lang="en"><span aria-hidden="true">🇬🇧</span> English</span>
+          <h2 lang="en">Outcome-Oriented Programming</h2>
+          <p class="subtitle" lang="en">From Applications to Agentic Execution</p>
+          <p class="author"><span data-i18n="authorLabel">Author</span>: Nicola Gallo<br><span data-i18n="publisherLabel">Publisher</span>: Nitro Agility S.r.l.</p>
+          <p class="description" data-i18n="enDescription">From intent to outcome: a model for agentic execution built on reusable tools, verification, authority, and governance.</p>
+          <div class="actions">
+            <a class="button primary" href="outcome-oriented-programming/outcome_oriented_programming.pdf" target="_blank" rel="noopener" data-i18n="open">Open PDF</a>
+            <button type="button" data-share="en" hidden data-i18n="share">Copy PDF link</button>
+            <button type="button" data-preview="en" data-i18n="preview">Preview</button>
+            <a class="button" href="outcome-oriented-programming/outcome_oriented_programming.pdf" download data-i18n="download">Download PDF</a>
+          </div>
+        </div>
+      </article>
+      <article data-language="it">
+        <div class="cover"><img src="outcome-oriented-programming-italian/outcome_oriented_programming_cover.png" alt="Cover of the Italian edition of Outcome-Oriented Programming" data-i18n-alt="itCover"></div>
+        <div class="details">
+          <span class="language" lang="it"><span aria-hidden="true">🇮🇹</span> Italiano</span>
+          <h2>Outcome-Oriented Programming</h2>
+          <p class="subtitle" lang="it">Dalle applicazioni all’esecuzione agentica</p>
+          <p class="author"><span data-i18n="authorLabel">Author</span>: Nicola Gallo<br><span data-i18n="publisherLabel">Publisher</span>: Nitro Agility S.r.l.</p>
+          <p class="description" data-i18n="itDescription">From intent to outcome: a model for agentic execution built on reusable tools, verification, authority, and governance.</p>
+          <div class="actions" id="italian-actions">
+            <a class="button primary" href="outcome-oriented-programming-italian/outcome_oriented_programming_italiano.pdf" target="_blank" rel="noopener" data-i18n="open">Open PDF</a>
+            <button type="button" data-share="it" hidden data-i18n="share">Copy PDF link</button>
+            <button type="button" data-preview="it" data-i18n="preview">Preview</button>
+            <a class="button" href="outcome-oriented-programming-italian/outcome_oriented_programming_italiano.pdf" download data-i18n="download">Download PDF</a>
+          </div>
+        </div>
+      </article>
+    </section>
+    <p class="notice" id="share-status" role="status"></p>
+    <input id="share-link" type="url" readonly hidden aria-label="PDF link to copy" data-i18n-aria-label="copyLabel" style="width:100%;padding:12px;font:inherit">
+    <noscript><p>You can open and download the PDF using the links on each card. Enable JavaScript for language selection, filters, previews, and link copying.</p></noscript>
+  </main>
+  <footer>© 2026 Nitro Agility S.r.l.<br><span data-i18n="licenseIntro">Books licensed under</span> <a href="https://creativecommons.org/licenses/by/4.0/" data-i18n="license">Creative Commons Attribution 4.0 International</a>.</footer>
+  <dialog aria-labelledby="reader-title">
+    <div class="reader-head"><h2 id="reader-title" data-i18n="preview">Preview</h2><button type="button" id="close" data-i18n="close">Close</button></div>
+    <div class="reader-links"><span data-i18n="readerHint">If the preview does not appear,</span> <a id="open-pdf" target="_blank" rel="noopener" data-i18n="openTab">open the PDF in a new tab</a>.</div>
+    <div id="document"></div>
+  </dialog>
+  <script>
+    const translations = {
+  "en": {
+    "siteLanguage": "Site language",
+    "eyebrow": "Ideas to read, knowledge to share",
+    "headingByline": "by Nitro Agility",
+    "intro": "Explore our collection of openly licensed books. Discover the authors, choose an edition, and read, download, or share a book.",
+    "all": "All editions",
+    "open": "Open PDF",
+    "share": "Copy PDF link",
+    "preview": "Preview",
+    "download": "Download PDF",
+    "close": "Close",
+    "readerHint": "If the preview does not appear,",
+    "openTab": "open the PDF in a new tab",
+    "authorLabel": "Author",
+    "publisherLabel": "Publisher",
+    "licenseIntro": "Books licensed under",
+    "license": "Creative Commons Attribution 4.0 International",
+    "itDescription": "From intent to outcome: a model for agentic execution built on reusable tools, verification, authority, and governance.",
+    "enDescription": "From intent to outcome: a model for agentic execution built on reusable tools, verification, authority, and governance.",
+    "countAll": "1 book · 2 editions",
+    "countOne": "1 book · 1 edition",
+    "filterLabel": "Filter by book language",
+    "editionsLabel": "Available editions",
+    "copyLabel": "PDF link to copy",
+    "itCover": "Cover of the Italian edition of Outcome-Oriented Programming",
+    "enCover": "Cover of the English edition of Outcome-Oriented Programming",
+    "local": "To share a link others can access, open this page on the published website. Locally, you can download the PDF and send it as an attachment.",
+    "copied": "PDF link copied. Paste it into a message to share the book.",
+    "copyFallback": "Copy the selected link to share the PDF.",
+    "pdfLabel": "PDF preview",
+    "fallback": "This browser cannot display the embedded PDF. Use the link above to read it.",
+    "meta": "Explore Open Books by Nitro Agility: openly licensed books to read, download, and share."
+  },
+  "it": {
+    "siteLanguage": "Lingua del sito",
+    "eyebrow": "Idee da leggere, conoscenza da condividere",
+    "headingByline": "di Nitro Agility",
+    "intro": "Esplora la nostra raccolta di libri con licenza aperta. Scopri gli autori, scegli un’edizione e leggi, scarica o condividi un libro.",
+    "all": "Tutte le edizioni",
+    "open": "Apri PDF",
+    "share": "Copia link PDF",
+    "preview": "Anteprima",
+    "download": "Scarica PDF",
+    "close": "Chiudi",
+    "readerHint": "Se l’anteprima non appare,",
+    "openTab": "apri il PDF in una nuova scheda",
+    "authorLabel": "Autore",
+    "publisherLabel": "Editore",
+    "licenseIntro": "Libri distribuiti con licenza",
+    "license": "Creative Commons Attribuzione 4.0 Internazionale",
+    "itDescription": "Dall’intenzione al risultato: un modello di esecuzione agentica fondato su strumenti riutilizzabili, verifica, autorità e governance.",
+    "enDescription": "Dall’intenzione al risultato: un modello di esecuzione agentica fondato su strumenti riutilizzabili, verifica, autorità e governance.",
+    "countAll": "1 libro · 2 edizioni",
+    "countOne": "1 libro · 1 edizione",
+    "filterLabel": "Filtra per lingua del libro",
+    "editionsLabel": "Edizioni disponibili",
+    "copyLabel": "Link PDF da copiare",
+    "itCover": "Copertina dell’edizione italiana di Outcome-Oriented Programming",
+    "enCover": "Copertina dell’edizione inglese di Outcome-Oriented Programming",
+    "local": "Per condividere un link accessibile agli altri, apri questa pagina dal sito pubblicato. In locale puoi scaricare il PDF e inviarlo come allegato.",
+    "copied": "Link al PDF copiato. Puoi incollarlo in un messaggio per condividere il libro.",
+    "copyFallback": "Copia il link selezionato per condividere il PDF.",
+    "pdfLabel": "Anteprima PDF",
+    "fallback": "Questo browser non mostra il PDF incorporato. Usa il collegamento qui sopra per leggerlo.",
+    "meta": "Scopri Open Books di Nitro Agility: libri con licenza aperta da leggere, scaricare e condividere."
+  }
+};
+    let siteLanguage = 'en';
+    const t = key => translations[siteLanguage][key];
+    function updateCount() {
+      const all = document.querySelector('[data-filter="all"]').getAttribute('aria-pressed') === 'true';
+      document.querySelector('#count').textContent = t(all ? 'countAll' : 'countOne');
+    }
+    document.querySelector('#site-language').addEventListener('change', event => {
+      siteLanguage = event.target.value;
+      document.documentElement.lang = siteLanguage;
+      document.querySelectorAll('[data-i18n]').forEach(element => {
+        element.textContent = t(element.dataset.i18n);
+      });
+      ['aria-label', 'alt', 'content'].forEach(attribute => {
+        document.querySelectorAll('[data-i18n-' + attribute + ']').forEach(element => {
+          element.setAttribute(attribute, t(element.getAttribute('data-i18n-' + attribute)));
+        });
+      });
+      document.querySelector('#share-status').textContent = '';
+      document.querySelector('#share-link').hidden = true;
+      updateCount();
+    });
+    const pdfs = {
+      it: 'outcome-oriented-programming-italian/outcome_oriented_programming_italiano.pdf',
+      en: 'outcome-oriented-programming/outcome_oriented_programming.pdf'
+    };
+    const reader = document.querySelector('dialog');
+    document.querySelectorAll('[data-share]').forEach(button => {
+      button.hidden = false;
+      button.addEventListener('click', async () => {
+        const status = document.querySelector('#share-status');
+        const field = document.querySelector('#share-link');
+        field.hidden = true;
+        if (!['https:', 'http:'].includes(location.protocol) || ['localhost', '127.0.0.1', '[::1]'].includes(location.hostname)) {
+          status.textContent = t('local');
+          return;
+        }
+        const url = new URL(pdfs[button.dataset.share], location.href).href;
+        try {
+          await navigator.clipboard.writeText(url);
+          status.textContent = t('copied');
+        } catch {
+          field.value = url;
+          field.hidden = false;
+          field.focus();
+          field.select();
+          status.textContent = t('copyFallback');
+        }
+      });
+    });
+    document.querySelectorAll('[data-filter]').forEach(button => {
+      button.addEventListener('click', () => {
+        document.querySelectorAll('[data-filter]').forEach(item => item.setAttribute('aria-pressed', String(item === button)));
+        document.querySelectorAll('[data-language]').forEach(card => {
+          card.hidden = button.dataset.filter !== 'all' && card.dataset.language !== button.dataset.filter;
+        });
+        document.querySelector('#count').textContent = t(button.dataset.filter === 'all' ? 'countAll' : 'countOne');
+      });
+    });
+    document.querySelectorAll('[data-preview]').forEach(button => {
+      button.addEventListener('click', () => {
+        const language = button.dataset.preview;
+        document.querySelector('#reader-title').textContent = 'Outcome-Oriented Programming · ' + (language === 'it' ? 'Italiano' : 'English');
+        document.querySelector('#open-pdf').href = pdfs[language];
+        const pdf = document.createElement('object');
+        pdf.type = 'application/pdf';
+        pdf.data = pdfs[language] + '#view=FitH';
+        pdf.setAttribute('aria-label', t('pdfLabel') + ' ' + language);
+        const fallback = document.createElement('p');
+        fallback.className = 'fallback';
+        fallback.textContent = t('fallback');
+        pdf.append(fallback);
+        document.querySelector('#document').replaceChildren(pdf);
+        reader.showModal();
+      });
+    });
+    document.querySelector('#close').addEventListener('click', () => reader.close());
+    reader.addEventListener('close', () => document.querySelector('#document').replaceChildren());
+  </script>
+</body>
+</html>
