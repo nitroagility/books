@@ -45,13 +45,11 @@
     .reader-head { display:flex; align-items:center; justify-content:space-between; gap:14px; padding:16px 22px; }
     .reader-head h2 { font:600 1rem/1.4 system-ui,sans-serif; margin:0; }
     .reader-links { padding:0 22px 14px; font-size:.9rem; }
-    object { display:block; width:100%; height:70vh; background:white; }
     .pdf-controls { display:flex; align-items:center; justify-content:center; gap:12px; padding:12px; flex-wrap:wrap; }
     .pdf-pages { height:65vh; overflow:auto; background:#d9dfdc; padding:16px; text-align:center; }
     .pdf-pages canvas { max-width:100%; height:auto; background:white; }
     .pdf-status { padding:0 22px; }
     button:disabled { opacity:.5; cursor:default; }
-    .fallback { padding:30px; }
     [hidden] { display:none !important; }
     @media(max-width:650px) { main,header,footer { padding:20px; } .grid { grid-template-columns:1fr; } .hero { padding-top:28px; } .cover { height:290px; } .details { padding:22px; } }
   </style>
@@ -74,7 +72,7 @@
     </div>
     <section class="grid" aria-label="Available editions" data-i18n-aria-label="editionsLabel">
       <article data-language="en">
-        <div class="cover"><img src="outcome-oriented-programming/outcome_oriented_programming_cover.png" alt="Cover of the English edition of Outcome-Oriented Programming" data-i18n-alt="enCover"></div>
+        <div class="cover"><img src="https://raw.githubusercontent.com/nitroagility/books/main/outcome-oriented-programming/outcome_oriented_programming_cover.png" alt="Cover of the English edition of Outcome-Oriented Programming" data-i18n-alt="enCover"></div>
         <div class="details">
           <span class="language" lang="en"><span aria-hidden="true">🇬🇧</span> English</span>
           <h2 lang="en">Outcome-Oriented Programming</h2>
@@ -82,15 +80,15 @@
           <p class="author"><span data-i18n="authorLabel">Author</span>: Nicola Gallo<br><span data-i18n="publisherLabel">Publisher</span>: Nitro Agility S.r.l.</p>
           <p class="description" data-i18n="enDescription">From intent to outcome: a model for agentic execution built on reusable tools, verification, authority, and governance.</p>
           <div class="actions">
-            <a class="button primary" data-open="en" href="outcome-oriented-programming/outcome_oriented_programming.pdf" target="_blank" rel="noopener" data-i18n="open">Open PDF</a>
+            <a class="button primary" data-open="en" href="https://raw.githubusercontent.com/nitroagility/books/main/outcome-oriented-programming/outcome_oriented_programming.pdf" target="_blank" rel="noopener" data-i18n="open">Open PDF</a>
             <button type="button" data-share="en" hidden data-i18n="share">Copy PDF link</button>
             <button type="button" data-preview="en" data-i18n="preview">Preview</button>
-            <a class="button" data-download="en" href="outcome-oriented-programming/outcome_oriented_programming.pdf" download data-i18n="download">Download PDF</a>
+            <a class="button" data-download="en" href="https://raw.githubusercontent.com/nitroagility/books/main/outcome-oriented-programming/outcome_oriented_programming.pdf" download data-i18n="download">Download PDF</a>
           </div>
         </div>
       </article>
       <article data-language="it">
-        <div class="cover"><img src="outcome-oriented-programming-italian/outcome_oriented_programming_cover.png" alt="Cover of the Italian edition of Outcome-Oriented Programming" data-i18n-alt="itCover"></div>
+        <div class="cover"><img src="https://raw.githubusercontent.com/nitroagility/books/main/outcome-oriented-programming-italian/outcome_oriented_programming_cover.png" alt="Cover of the Italian edition of Outcome-Oriented Programming" data-i18n-alt="itCover"></div>
         <div class="details">
           <span class="language" lang="it"><span aria-hidden="true">🇮🇹</span> Italiano</span>
           <h2>Outcome-Oriented Programming</h2>
@@ -98,10 +96,10 @@
           <p class="author"><span data-i18n="authorLabel">Author</span>: Nicola Gallo<br><span data-i18n="publisherLabel">Publisher</span>: Nitro Agility S.r.l.</p>
           <p class="description" data-i18n="itDescription">From intent to outcome: a model for agentic execution built on reusable tools, verification, authority, and governance.</p>
           <div class="actions" id="italian-actions">
-            <a class="button primary" data-open="it" href="outcome-oriented-programming-italian/outcome_oriented_programming_italiano.pdf" target="_blank" rel="noopener" data-i18n="open">Open PDF</a>
+            <a class="button primary" data-open="it" href="https://raw.githubusercontent.com/nitroagility/books/main/outcome-oriented-programming-italian/outcome_oriented_programming_italiano.pdf" target="_blank" rel="noopener" data-i18n="open">Open PDF</a>
             <button type="button" data-share="it" hidden data-i18n="share">Copy PDF link</button>
             <button type="button" data-preview="it" data-i18n="preview">Preview</button>
-            <a class="button" data-download="it" href="outcome-oriented-programming-italian/outcome_oriented_programming_italiano.pdf" download data-i18n="download">Download PDF</a>
+            <a class="button" data-download="it" href="https://raw.githubusercontent.com/nitroagility/books/main/outcome-oriented-programming-italian/outcome_oriented_programming_italiano.pdf" download data-i18n="download">Download PDF</a>
           </div>
         </div>
       </article>
@@ -155,11 +153,9 @@
     "copyLabel": "PDF link to copy",
     "itCover": "Cover of the Italian edition of Outcome-Oriented Programming",
     "enCover": "Cover of the English edition of Outcome-Oriented Programming",
-    "local": "To share a link others can access, open this page on the published website. Locally, you can download the PDF and send it as an attachment.",
     "copied": "PDF link copied. Paste it into a message to share the book.",
     "copyFallback": "Copy the selected link to share the PDF.",
     "pdfLabel": "PDF preview",
-    "fallback": "This browser cannot display the embedded PDF. Use the link above to read it.",
     "meta": "Explore Open Books by Nitro Agility: openly licensed books to read, download, and share."
   },
   "it": {
@@ -192,11 +188,9 @@
     "copyLabel": "Link PDF da copiare",
     "itCover": "Copertina dell’edizione italiana di Outcome-Oriented Programming",
     "enCover": "Copertina dell’edizione inglese di Outcome-Oriented Programming",
-    "local": "Per condividere un link accessibile agli altri, apri questa pagina dal sito pubblicato. In locale puoi scaricare il PDF e inviarlo come allegato.",
     "copied": "Link al PDF copiato. Puoi incollarlo in un messaggio per condividere il libro.",
     "copyFallback": "Copia il link selezionato per condividere il PDF.",
     "pdfLabel": "Anteprima PDF",
-    "fallback": "Questo browser non mostra il PDF incorporato. Usa il collegamento qui sopra per leggerlo.",
     "meta": "Scopri Open Books di Nitro Agility: libri con licenza aperta da leggere, scaricare e condividere."
   }
 };
@@ -225,31 +219,10 @@
       it: 'outcome-oriented-programming-italian/outcome_oriented_programming_italiano.pdf',
       en: 'outcome-oriented-programming/outcome_oriented_programming.pdf'
     };
-    // HTML Preview injects a raw GitHub <base>, but location still belongs to
-    // htmlpreview.github.io. Resolve files from the source document, not that host.
-    function sourceDocument(pageURL, baseURI) {
-      const page = new URL(pageURL);
-      if (page.hostname !== 'htmlpreview.github.io') return new URL(baseURI);
-      let source = page.search.slice(1);
-      if (!/^https?:\/\//i.test(source)) source = decodeURIComponent(source);
-      const url = new URL(source);
-      if (url.protocol !== 'https:' || !['github.com', 'raw.githubusercontent.com'].includes(url.hostname)) {
-        throw new Error('Unsupported HTML Preview source');
-      }
-      if (url.hostname === 'github.com') {
-        if (!/^\/[^/]+\/[^/]+\/blob\//.test(url.pathname)) throw new Error('Expected a GitHub file URL');
-        url.hostname = 'raw.githubusercontent.com';
-        url.pathname = url.pathname.replace('/blob/', '/');
-      }
-      url.search = '';
-      url.hash = '';
-      return url;
-    }
-    const isHTMLPreview = location.hostname === 'htmlpreview.github.io';
-    const sourceURL = sourceDocument(location.href, document.baseURI);
-    const pdfURL = language => new URL(pdfs[language], sourceURL).href;
+    // Book assets always come from this repository, regardless of page hosting.
+    const rawBaseURL = 'https://raw.githubusercontent.com/nitroagility/books/main/';
+    const pdfURL = language => new URL(pdfs[language], rawBaseURL).href;
     function openURL(language) {
-      if (!isHTMLPreview) return pdfURL(language);
       const url = new URL(location.href);
       url.hash = new URLSearchParams({ book: language }).toString();
       return url.href;
@@ -260,9 +233,6 @@
     document.querySelectorAll('[data-download]').forEach(link => {
       link.href = pdfURL(link.dataset.download);
     });
-    document.querySelectorAll('.cover img').forEach(img => {
-      img.src = new URL(img.getAttribute('src'), sourceURL).href;
-    });
     const reader = document.querySelector('dialog');
     document.querySelectorAll('[data-share]').forEach(button => {
       button.hidden = false;
@@ -270,11 +240,7 @@
         const status = document.querySelector('#share-status');
         const field = document.querySelector('#share-link');
         field.hidden = true;
-        if (!['https:', 'http:'].includes(location.protocol) || ['localhost', '127.0.0.1', '[::1]'].includes(location.hostname)) {
-          status.textContent = t('local');
-          return;
-        }
-        const url = openURL(button.dataset.share);
+        const url = pdfURL(button.dataset.share);
         try {
           await navigator.clipboard.writeText(url);
           status.textContent = t('copied');
@@ -348,20 +314,8 @@
       document.querySelector('#reader-title').textContent = 'Outcome-Oriented Programming · ' + (language === 'it' ? 'Italiano' : 'English');
       document.querySelector('#open-pdf').href = openURL(language);
       const container = document.querySelector('#document');
-      container.className = isHTMLPreview ? 'pdf-pages' : '';
+      container.className = 'pdf-pages';
       if (!reader.open) reader.showModal();
-      if (!isHTMLPreview) {
-        const pdf = document.createElement('object');
-        pdf.type = 'application/pdf';
-        pdf.data = pdfURL(language) + '#view=FitH';
-        pdf.setAttribute('aria-label', t('pdfLabel') + ' ' + language);
-        const fallback = document.createElement('p');
-        fallback.className = 'fallback';
-        fallback.textContent = t('fallback');
-        pdf.append(fallback);
-        container.replaceChildren(pdf);
-        return;
-      }
       document.querySelector('#pdf-controls').hidden = false;
       document.querySelector('#reader-download').href = pdfURL(language);
       document.querySelector('#pdf-status').textContent = t('loading');
@@ -396,7 +350,7 @@
     document.querySelector('#close').addEventListener('click', () => reader.close());
     reader.addEventListener('close', resetReader);
     const requestedBook = new URLSearchParams(location.hash.slice(1)).get('book');
-    if (isHTMLPreview && Object.hasOwn(pdfs, requestedBook)) showPreview(requestedBook);
+    if (Object.hasOwn(pdfs, requestedBook)) showPreview(requestedBook);
   </script>
 </body>
 </html>
